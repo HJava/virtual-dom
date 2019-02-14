@@ -222,9 +222,10 @@ function undefinedKeys(obj) {
 function reorder(aChildren, bChildren) {
     // O(M) time, O(M) memory
     var bChildIndex = keyIndex(bChildren)
-    var bKeys = bChildIndex.keys
-    var bFree = bChildIndex.free
+    var bKeys = bChildIndex.keys  // have "key" prop，object
+    var bFree = bChildIndex.free  //don't have "key" prop，array
 
+    // all children of b don't have "key"
     if (bFree.length === bChildren.length) {
         return {
             children: bChildren,
@@ -237,6 +238,7 @@ function reorder(aChildren, bChildren) {
     var aKeys = aChildIndex.keys
     var aFree = aChildIndex.free
 
+    // all children of a don't have "key"
     if (aFree.length === aChildren.length) {
         return {
             children: bChildren,
@@ -325,7 +327,7 @@ function reorder(aChildren, bChildren) {
             // if we need a key in this position...
             if (wantedItem.key) {
                 if (simulateItem && simulateItem.key) {
-                    // if an insert doesn't put this key in place, it needs to move
+                    // if an insert doesn't put this key in place, it needs to move，两个元素相邻，simulateItem在后
                     if (bKeys[simulateItem.key] !== k + 1) {
                         removes.push(remove(simulate, simulateIndex, simulateItem.key))
                         simulateItem = simulate[simulateIndex]
